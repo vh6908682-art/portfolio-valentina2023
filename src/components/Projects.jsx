@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
 
 // Explicit imports (reliable on Vercel; import.meta.glob can fail in production)
-import clueplay1 from "../assets/projects/CluePlay/Clueplay.ai1.webp";
-import clueplay2 from "../assets/projects/CluePlay/Clueplay.ai2.webp";
+import clueplay1 from "../assets/projects/CluePlay/Clueplayai1.webp";
+import clueplay2 from "../assets/projects/CluePlay/Clueplayai2.webp";
 import forex1 from "../assets/projects/Forex/forex1.jpg";
 import forex2 from "../assets/projects/Forex/forex2.jpg";
 import forex3 from "../assets/projects/Forex/forex3.jpg";
