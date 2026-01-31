@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
 
 // Explicit imports (reliable on Vercel; import.meta.glob can fail in production)
-import clueplay1 from "../assets/projects/CluePlay/Clueplayai1.webp";
-import clueplay2 from "../assets/projects/CluePlay/Clueplayai2.webp";
+import clueplay1 from "../assets/projects/CluePlay/Clueplayai1.png";
+import clueplay2 from "../assets/projects/CluePlay/Clueplayai2.png";
 import forex1 from "../assets/projects/Forex/forex1.jpg";
 import forex2 from "../assets/projects/Forex/forex2.jpg";
 import forex3 from "../assets/projects/Forex/forex3.jpg";
@@ -56,9 +56,9 @@ import gravelu14 from "../assets/projects/Gravelu/gravelu14.jpg";
 import gravelu15 from "../assets/projects/Gravelu/gravelu15.jpg";
 import gravelu16 from "../assets/projects/Gravelu/gravelu16.jpg";
 import gravelu17 from "../assets/projects/Gravelu/gravelu17.jpg";
-import healthcare1 from "../assets/projects/Healthcare/Healthcare Operations Dashboard1.webp";
-import praxis1 from "../assets/projects/Praxis/Praxis Richter - Homepage Design1.webp";
-import praxis2 from "../assets/projects/Praxis/Praxis Richter - Homepage Design2.webp";
+import healthcare1 from "../assets/projects/Healthcare/Healthcare.png";
+import praxis1 from "../assets/projects/Praxis/Praxis1.png";
+import praxis2 from "../assets/projects/Praxis/Praxis2.png";
 import speakbetter1 from "../assets/projects/SpeakBetter/SpeakBetter1.webp";
 import speakbetter2 from "../assets/projects/SpeakBetter/SpeakBetter2.webp";
 import worldcup1 from "../assets/projects/WolrdCup/WorldCup1.jpg";
