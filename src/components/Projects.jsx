@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import AnimateOnScroll from "./AnimateOnScroll";
 
 // Explicit imports (reliable on Vercel; all lowercase for cross-platform compatibility)
 import clueplay1 from "../assets/projects/clueplay/clueplayai1.png";
@@ -210,24 +211,29 @@ export default function Projects() {
 
   return (
     <>
-      <section id="projects" className="px-4 py-20 border-t border-white/5">
+      <section id="projects" className="px-4 py-20 border-t border-border bg-surface">
         <div className="mx-auto max-w-4xl">
-          <h2 className="text-2xl font-semibold mb-8">Selected Projects</h2>
+          <AnimateOnScroll>
+            <h2 className="text-2xl font-semibold mb-8 text-primary">
+              Selected Projects
+            </h2>
+          </AnimateOnScroll>
 
-          <div
-            role="button"
-            tabIndex={0}
-            onClick={() => openGallery(p)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                openGallery(p);
-              }
-            }}
-            className="rounded-xl border border-white/10 bg-white/5 overflow-hidden cursor-pointer transition-colors hover:border-accent/50 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-accent/50 focus:ring-offset-2 focus:ring-offset-primary"
-          >
-            <div className="grid md:grid-cols-2">
-              <div className="relative aspect-video md:aspect-auto md:min-h-[300px] bg-white/5">
+          <AnimateOnScroll delay={100}>
+            <div
+              role="button"
+              tabIndex={0}
+              onClick={() => openGallery(p)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  openGallery(p);
+                }
+              }}
+              className="rounded-2xl border border-border bg-surface-elevated overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-xl hover:border-accent/40 hover:scale-[1.01] focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-surface"
+            >
+              <div className="grid md:grid-cols-2">
+                <div className="relative aspect-video md:aspect-auto md:min-h-[300px] bg-border-light">
                 {projects.map((proj, index) => (
                   <div
                     key={proj.title}
@@ -244,7 +250,7 @@ export default function Projects() {
                         className="w-full h-full object-cover object-top"
                       />
                     ) : (
-                      <div className="w-full h-full bg-white/5" />
+                      <div className="w-full h-full bg-border-light" />
                     )}
                   </div>
                 ))}
@@ -254,21 +260,22 @@ export default function Projects() {
                   <h3 className="font-semibold text-lg mb-2 text-accent">
                     {p.title}
                   </h3>
-                  <p className="text-sm text-white/90 font-medium mb-2">
+                  <p className="text-sm text-primary font-medium mb-2">
                     {p.summary}
                   </p>
-                  <p className="text-sm text-white/70 leading-relaxed">
+                  <p className="text-sm text-muted leading-relaxed">
                     {p.description}
                   </p>
                   {p.images.length > 0 && (
-                    <p className="text-xs text-white/50 mt-3">
+                    <p className="text-xs text-muted mt-3">
                       Click to view {p.images.length === 1 ? "1 image" : `${p.images.length} images`} →
                     </p>
                   )}
                 </div>
               </div>
             </div>
-          </div>
+            </div>
+          </AnimateOnScroll>
 
           <div className="flex items-center justify-center gap-3 mt-6">
             <button
@@ -278,7 +285,7 @@ export default function Projects() {
                 prev();
               }}
               aria-label="Previous project"
-              className="rounded-full p-2 text-white/60 hover:text-accent hover:bg-white/10 transition-colors"
+              className="rounded-full p-2 text-muted hover:text-accent hover:bg-accent/10 transition-all duration-300"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -300,10 +307,10 @@ export default function Projects() {
                     goTo(index);
                   }}
                   aria-label={`Go to project ${index + 1}`}
-                  className={`h-1.5 rounded-full transition-all ${
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
                     index === current
                       ? "w-5 bg-accent"
-                      : "w-1.5 bg-white/30 hover:bg-white/50"
+                      : "w-1.5 bg-border hover:bg-accent/50"
                   }`}
                 />
               ))}
@@ -315,7 +322,7 @@ export default function Projects() {
                 next();
               }}
               aria-label="Next project"
-              className="rounded-full p-2 text-white/60 hover:text-accent hover:bg-white/10 transition-colors"
+              className="rounded-full p-2 text-muted hover:text-accent hover:bg-accent/10 transition-all duration-300"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
