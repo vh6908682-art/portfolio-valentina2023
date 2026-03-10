@@ -913,37 +913,487 @@
   }
 
   // ==========================================
-  // PROCESS SECTION - INTERACTIVE JOURNEY
+  // PROCESS SECTION - THREE.JS 3D CAMERA JOURNEY
   // ==========================================
   function initProcess() {
-    const stepBtns = document.querySelectorAll('.process-step-btn');
-    const steps = document.querySelectorAll('.process-step');
+    const canvas = document.getElementById('process-canvas');
+    const container = document.getElementById('scroll-container');
+    const progressFill = document.querySelector('.camera-progress .progress-fill');
+    const progressCurrent = document.querySelector('.camera-current');
+    const coordX = document.querySelector('.coord-x');
+    const coordY = document.querySelector('.coord-y');
+    const coordZ = document.querySelector('.coord-z');
+    const scrollHint = document.querySelector('.scroll-hint');
+    const stepDots = document.querySelectorAll('.step-dot');
+    const cameraProgress = document.querySelector('.camera-progress');
 
-    stepBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const stepIndex = btn.dataset.step;
+    if (!canvas || !container || typeof THREE === 'undefined') return;
 
-        // Update buttons
-        stepBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+    // Register GSAP plugins (must happen before any ScrollTrigger use)
+    if (typeof gsap !== 'undefined') {
+      if (typeof ScrollTrigger !== 'undefined') gsap.registerPlugin(ScrollTrigger);
+      if (typeof ScrollToPlugin !== 'undefined') gsap.registerPlugin(ScrollToPlugin);
+    }
 
-        // Update steps with animation
-        steps.forEach(step => {
-          if (step.dataset.step === stepIndex) {
-            step.classList.add('active');
-            // Restart progress animation
-            const progress = step.querySelector('.step-progress::after');
-            if (progress) {
-              progress.style.animation = 'none';
-              progress.offsetHeight; // Trigger reflow
-              progress.style.animation = 'progressGrow 1.5s ease-out forwards';
+    // -------- Scene --------
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x080810);
+    scene.fog = new THREE.FogExp2(0x080810, 0.0012);
+
+    // -------- Sizing (use container, fallback to window) --------
+    let w = container.offsetWidth || window.innerWidth;
+    let h = container.offsetHeight || window.innerHeight;
+
+    // -------- Camera --------
+    const camera = new THREE.PerspectiveCamera(60, w / h, 1, 2000);
+    camera.position.set(0, 0, 0);
+
+    // -------- Renderer --------
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+    renderer.setSize(w, h);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.2;
+
+    // -------- Lighting --------
+    const ambient = new THREE.AmbientLight(0xffffff, 0.25);
+    scene.add(ambient);
+
+    const sun = new THREE.DirectionalLight(0x4da3ff, 0.6);
+    sun.position.set(100, 200, 150);
+    scene.add(sun);
+
+    const fill = new THREE.DirectionalLight(0xff6b6b, 0.15);
+    fill.position.set(-100, -50, -100);
+    scene.add(fill);
+
+    // -------- Step definitions --------
+    const steps = [
+      {
+        title: 'Discovery', subtitle: 'Understanding the Problem',
+        desc: ['Stakeholder interviews & workshops', 'User research & persona creation', 'Competitive landscape analysis', 'Opportunity mapping'],
+        color: 0x4da3ff,
+        cam: { x: 0, y: 0, z: 0 },
+        lookAt: { x: 0, y: 0, z: 100 },
+        panel: { x: 0, y: 0, z: 100 }
+      },
+      {
+        title: 'Strategy', subtitle: 'Defining the Vision',
+        desc: ['Information architecture', 'User flow definition', 'Design system foundations', 'Technical feasibility review'],
+        color: 0x00cc88,
+        cam: { x: 0, y: 0, z: 200 },
+        lookAt: { x: 0, y: 0, z: 300 },
+        panel: { x: 0, y: 0, z: 300 }
+      },
+      {
+        title: 'Design', subtitle: 'Crafting the Experience',
+        desc: ['High-fidelity interface design', 'Typography & spacing systems', 'Interaction design details', 'Prototype & validate'],
+        color: 0xff6b6b,
+        cam: { x: 100, y: 0, z: 200 },
+        lookAt: { x: 200, y: 0, z: 200 },
+        panel: { x: 200, y: 0, z: 200 }
+      },
+      {
+        title: 'Build', subtitle: 'Bringing It to Life',
+        desc: ['Clean, semantic code', 'Modern framework integration', 'Performance optimization', 'Cross-browser testing'],
+        color: 0xffaa00,
+        cam: { x: 100, y: -100, z: 200 },
+        lookAt: { x: 100, y: -200, z: 200 },
+        panel: { x: 100, y: -200, z: 200 }
+      },
+      {
+        title: 'Launch', subtitle: 'Launch & Optimize',
+        desc: ['Analytics & monitoring setup', 'Performance benchmarking', 'User feedback collection', 'Continuous iteration'],
+        color: 0xaa66ff,
+        cam: { x: 100, y: -100, z: 100 },
+        lookAt: { x: 100, y: -100, z: 0 },
+        panel: { x: 100, y: -100, z: 0 }
+      }
+    ];
+
+    // -------- Canvas texture helpers --------
+    function roundRect(ctx, x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+      ctx.lineTo(x + w, y + h - r);
+      ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+      ctx.lineTo(x + r, y + h);
+      ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+      ctx.lineTo(x, y + r);
+      ctx.quadraticCurveTo(x, y, x + r, y);
+      ctx.closePath();
+    }
+
+    function createPanelTexture(step, index) {
+      const c = document.createElement('canvas');
+      c.width = 1024;
+      c.height = 576;
+      const ctx = c.getContext('2d');
+      const hex = '#' + step.color.toString(16).padStart(6, '0');
+
+      ctx.fillStyle = 'rgba(12, 12, 20, 0.95)';
+      roundRect(ctx, 0, 0, 1024, 576, 32);
+      ctx.fill();
+
+      ctx.strokeStyle = hex;
+      ctx.lineWidth = 3;
+      roundRect(ctx, 6, 6, 1012, 564, 28);
+      ctx.stroke();
+
+      const glow = ctx.createLinearGradient(0, 0, 1024, 0);
+      glow.addColorStop(0, 'transparent');
+      glow.addColorStop(0.3, hex);
+      glow.addColorStop(0.7, hex);
+      glow.addColorStop(1, 'transparent');
+      ctx.strokeStyle = glow;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(40, 10);
+      ctx.lineTo(984, 10);
+      ctx.stroke();
+
+      ctx.fillStyle = hex;
+      ctx.globalAlpha = 0.06;
+      ctx.font = 'bold 280px "Space Grotesk", sans-serif';
+      ctx.textAlign = 'right';
+      ctx.fillText(String(index + 1).padStart(2, '0'), 990, 480);
+      ctx.globalAlpha = 1;
+
+      ctx.fillStyle = hex;
+      ctx.globalAlpha = 0.15;
+      roundRect(ctx, 60, 48, 130, 44, 22);
+      ctx.fill();
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = hex;
+      ctx.font = '500 20px "Inter", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('Step ' + (index + 1), 125, 78);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 60px "Space Grotesk", sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(step.title, 60, 180);
+
+      ctx.fillStyle = hex;
+      ctx.font = '500 26px "Inter", sans-serif';
+      ctx.fillText(step.subtitle, 60, 225);
+
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(60, 255);
+      ctx.lineTo(964, 255);
+      ctx.stroke();
+
+      ctx.font = '400 22px "Inter", sans-serif';
+      step.desc.forEach((line, i) => {
+        ctx.fillStyle = hex;
+        ctx.fillText('\u2014', 60, 300 + i * 42);
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.55)';
+        ctx.fillText(line, 90, 300 + i * 42);
+      });
+
+      for (let d = 0; d < 5; d++) {
+        ctx.beginPath();
+        ctx.arc(60 + d * 22, 520, 4, 0, Math.PI * 2);
+        ctx.fillStyle = d <= index ? hex : 'rgba(255, 255, 255, 0.12)';
+        ctx.fill();
+      }
+
+      const texture = new THREE.CanvasTexture(c);
+      texture.minFilter = THREE.LinearFilter;
+      texture.magFilter = THREE.LinearFilter;
+      return texture;
+    }
+
+    // -------- Create panels --------
+    const panels = [];
+    const panelGlows = [];
+
+    steps.forEach((step, i) => {
+      const tex = createPanelTexture(step, i);
+      const geo = new THREE.PlaneGeometry(80, 45);
+      const mat = new THREE.MeshStandardMaterial({
+        map: tex,
+        emissive: new THREE.Color(step.color),
+        emissiveIntensity: 0.05,
+        roughness: 0.3,
+        metalness: 0.1,
+        side: THREE.DoubleSide,
+        transparent: true
+      });
+
+      const panel = new THREE.Mesh(geo, mat);
+      panel.position.set(step.panel.x, step.panel.y, step.panel.z);
+
+      const dir = new THREE.Vector3(
+        step.cam.x - step.panel.x,
+        step.cam.y - step.panel.y,
+        step.cam.z - step.panel.z
+      ).normalize();
+      if (Math.abs(dir.y) > 0.9) {
+        panel.up.set(0, 0, -Math.sign(dir.y));
+      }
+      panel.lookAt(step.cam.x, step.cam.y, step.cam.z);
+      panel.rotation.x += 0.03;
+
+      panel.userData = {
+        baseY: step.panel.y,
+        floatPhase: Math.random() * Math.PI * 2,
+        floatSpeed: 0.4 + Math.random() * 0.3,
+        floatAmp: 1.5 + Math.random() * 1
+      };
+
+      panels.push(panel);
+      scene.add(panel);
+
+      const glowLight = new THREE.PointLight(step.color, 0.4, 120);
+      glowLight.position.copy(panel.position);
+      scene.add(glowLight);
+      panelGlows.push(glowLight);
+    });
+
+    // -------- Connecting path between panels --------
+    const curvePoints = steps.map(s =>
+      new THREE.Vector3(s.panel.x, s.panel.y, s.panel.z)
+    );
+    const curve = new THREE.CatmullRomCurve3(curvePoints, false, 'centripetal', 0.5);
+    const curvGeo = new THREE.BufferGeometry().setFromPoints(curve.getPoints(200));
+    const curvMat = new THREE.LineBasicMaterial({
+      color: 0x4da3ff, transparent: true, opacity: 0.1
+    });
+    scene.add(new THREE.Line(curvGeo, curvMat));
+
+    // -------- Particles --------
+    const PARTICLE_COUNT = 300;
+    const pGeo = new THREE.BufferGeometry();
+    const pPos = new Float32Array(PARTICLE_COUNT * 3);
+    for (let pi = 0; pi < PARTICLE_COUNT; pi++) {
+      pPos[pi * 3]     = (Math.random() - 0.5) * 700;
+      pPos[pi * 3 + 1] = (Math.random() - 0.5) * 500;
+      pPos[pi * 3 + 2] = (Math.random() - 0.5) * 700;
+    }
+    pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+    const pMat = new THREE.PointsMaterial({
+      color: 0x4da3ff, size: 1.5, transparent: true, opacity: 0.35, sizeAttenuation: true
+    });
+    const particleMesh = new THREE.Points(pGeo, pMat);
+    scene.add(particleMesh);
+
+    // -------- Decorative floating shapes --------
+    const decoMeshes = [];
+    steps.forEach((step) => {
+      for (let j = 0; j < 3; j++) {
+        const sz = 1 + Math.random() * 2;
+        const geos = [
+          new THREE.OctahedronGeometry(sz, 0),
+          new THREE.TetrahedronGeometry(sz, 0),
+          new THREE.IcosahedronGeometry(sz, 0)
+        ];
+        const g = geos[Math.floor(Math.random() * geos.length)];
+        const m = new THREE.MeshStandardMaterial({
+          color: step.color, transparent: true, opacity: 0.18,
+          roughness: 0.6, metalness: 0.2, wireframe: Math.random() > 0.5
+        });
+        const mesh = new THREE.Mesh(g, m);
+        mesh.position.set(
+          step.panel.x + (Math.random() - 0.5) * 80,
+          step.panel.y + (Math.random() - 0.5) * 60,
+          step.panel.z + (Math.random() - 0.5) * 80
+        );
+        mesh.rotation.set(
+          Math.random() * Math.PI,
+          Math.random() * Math.PI,
+          Math.random() * Math.PI
+        );
+        mesh.userData.rot = {
+          x: (Math.random() - 0.5) * 0.008,
+          y: (Math.random() - 0.5) * 0.008,
+          z: (Math.random() - 0.5) * 0.008
+        };
+        decoMeshes.push(mesh);
+        scene.add(mesh);
+      }
+    });
+
+    // -------- State --------
+    let scrollProgress = 0;
+    let currentStep = 0;
+    const clock = new THREE.Clock();
+    const currentLookAt = new THREE.Vector3(
+      steps[0].lookAt.x, steps[0].lookAt.y, steps[0].lookAt.z
+    );
+    const targetLookAt = new THREE.Vector3(
+      steps[0].lookAt.x, steps[0].lookAt.y, steps[0].lookAt.z
+    );
+    camera.lookAt(currentLookAt);
+
+    // -------- GSAP ScrollTrigger --------
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: container,
+          start: 'top top',
+          end: '+=5000',
+          scrub: true,
+          pin: true,
+          anticipatePin: 1,
+          onUpdate: (self) => {
+            scrollProgress = self.progress;
+
+            if (progressFill) {
+              progressFill.style.strokeDashoffset = 283 - scrollProgress * 283;
             }
-          } else {
-            step.classList.remove('active');
+
+            const newStep = Math.min(Math.floor(scrollProgress * 5), 4);
+            if (newStep !== currentStep) {
+              currentStep = newStep;
+              updateUI(currentStep);
+            }
+
+            if (progressCurrent) {
+              progressCurrent.textContent = String(currentStep + 1).padStart(2, '0');
+            }
+
+            updateCoords();
+
+            if (scrollHint) {
+              scrollHint.classList.toggle('hidden', scrollProgress > 0.02);
+            }
+          },
+          onToggle: (self) => {
+            if (cameraProgress) {
+              cameraProgress.classList.toggle('hidden', !self.isActive);
+            }
+          },
+          onLeave: () => {
+            if (cameraProgress) cameraProgress.classList.add('hidden');
+          },
+          onEnterBack: () => {
+            if (cameraProgress) cameraProgress.classList.remove('hidden');
           }
+        }
+      });
+
+      const seg = 1 / (steps.length - 1);
+      for (let si = 1; si < steps.length; si++) {
+        tl.to(camera.position, {
+          x: steps[si].cam.x,
+          y: steps[si].cam.y,
+          z: steps[si].cam.z,
+          duration: seg,
+          ease: 'none'
+        }, (si - 1) * seg);
+      }
+    }
+
+    function updateUI(active) {
+      stepDots.forEach((dot, i) => {
+        dot.classList.remove('active', 'passed');
+        if (i === active) dot.classList.add('active');
+        else if (i < active) dot.classList.add('passed');
+      });
+
+      panels.forEach((p, i) => {
+        const isActive = i === active;
+        gsap.to(p.material, {
+          emissiveIntensity: isActive ? 0.2 : 0.03,
+          duration: 0.6, ease: 'power2.out'
+        });
+        gsap.to(p.scale, {
+          x: isActive ? 1.08 : 1,
+          y: isActive ? 1.08 : 1,
+          z: isActive ? 1.08 : 1,
+          duration: 0.6, ease: 'expo.out'
         });
       });
+
+      panelGlows.forEach((g, i) => {
+        gsap.to(g, {
+          intensity: i === active ? 0.8 : 0.3,
+          duration: 0.6
+        });
+      });
+    }
+
+    function updateCoords() {
+      if (!coordX || !coordY || !coordZ) return;
+      const p = scrollProgress * (steps.length - 1);
+      const idx = Math.floor(p);
+      const t = p - idx;
+      const a = steps[Math.min(idx, steps.length - 1)].cam;
+      const b = steps[Math.min(idx + 1, steps.length - 1)].cam;
+      coordX.textContent = 'x: ' + Math.round(a.x + (b.x - a.x) * t);
+      coordY.textContent = 'y: ' + Math.round(a.y + (b.y - a.y) * t);
+      coordZ.textContent = 'z: ' + Math.round(a.z + (b.z - a.z) * t);
+    }
+
+    stepDots.forEach((dot, i) => {
+      dot.addEventListener('click', () => {
+        const st = ScrollTrigger.getAll().find(t => t.trigger === container);
+        if (st) {
+          gsap.to(window, {
+            scrollTo: { y: st.start + (st.end - st.start) * (i / (steps.length - 1)) },
+            duration: 1.2, ease: 'expo.inOut'
+          });
+        }
+      });
     });
+
+    // -------- Render first frame immediately --------
+    renderer.render(scene, camera);
+
+    // -------- Render loop --------
+    function animate() {
+      requestAnimationFrame(animate);
+
+      const time = clock.getElapsedTime();
+
+      const p = scrollProgress * (steps.length - 1);
+      const idx = Math.floor(p);
+      const t = p - idx;
+      const a = steps[Math.min(idx, steps.length - 1)].lookAt;
+      const b = steps[Math.min(idx + 1, steps.length - 1)].lookAt;
+
+      targetLookAt.set(
+        a.x + (b.x - a.x) * t,
+        a.y + (b.y - a.y) * t,
+        a.z + (b.z - a.z) * t
+      );
+      currentLookAt.lerp(targetLookAt, 0.08);
+      camera.lookAt(currentLookAt);
+
+      panels.forEach((panel) => {
+        const d = panel.userData;
+        panel.position.y = d.baseY + Math.sin(time * d.floatSpeed + d.floatPhase) * d.floatAmp;
+      });
+
+      decoMeshes.forEach((m) => {
+        m.rotation.x += m.userData.rot.x;
+        m.rotation.y += m.userData.rot.y;
+        m.rotation.z += m.userData.rot.z;
+      });
+
+      particleMesh.rotation.y = time * 0.008;
+
+      renderer.render(scene, camera);
+    }
+
+    animate();
+
+    // -------- Resize --------
+    function onResize() {
+      const rw = container.offsetWidth || window.innerWidth;
+      const rh = container.offsetHeight || window.innerHeight;
+      camera.aspect = rw / rh;
+      camera.updateProjectionMatrix();
+      renderer.setSize(rw, rh);
+    }
+    window.addEventListener('resize', onResize);
+
+    updateUI(0);
   }
 
   // ==========================================
@@ -1149,7 +1599,6 @@
     const parallaxSections = [
       { selector: '.hero-content', speed: 0.3 },
       { selector: '.work-section', speed: 0.2 },
-      { selector: '.process-section', speed: 0.15 },
       { selector: '.skills-section', speed: 0.25 },
       { selector: '.about-section', speed: 0.2 },
       { selector: '.contact-section', speed: 0.1 }
@@ -1195,18 +1644,17 @@
     initTheme();
     initCursor();
     initThreeJS();
-    initProcess();
     initScrollReveal();
 
-    // Initialize GSAP after page load
     if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
       initGSAP();
+      initProcess();
       initScrollParallax();
     } else {
-      // Retry if GSAP isn't loaded yet
       window.addEventListener('load', () => {
         if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
           initGSAP();
+          initProcess();
           initScrollParallax();
         }
       });

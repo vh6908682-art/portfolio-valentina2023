@@ -929,196 +929,240 @@ button {
 }
 
 /* =====================================================
-   Process Section - Interactive Journey
+   Process Section - Three.js 3D Camera Journey
    ===================================================== */
 .process-section {
-  padding: var(--space-3xl) 0;
-  background: var(--color-bg-elevated);
-  border-top: 1px solid var(--color-border);
-  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-3xl) 0 0;
+  position: relative;
+  background: #080810;
+  overflow: visible;
 }
 
-.process-container {
+.process-header {
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 0 var(--space-lg);
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: var(--space-2xl);
+  margin-bottom: var(--space-xl);
+  text-align: center;
 }
 
-@media (max-width: 900px) {
-  .process-container {
-    grid-template-columns: 1fr;
-  }
-}
-
-.process-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  position: sticky;
-  top: calc(var(--header-height) + var(--space-xl));
-  height: fit-content;
-}
-
-.process-step-btn {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-  padding: 1rem 1.25rem;
-  text-align: left;
-  border-radius: var(--border-radius-sm);
-  transition: all var(--duration-fast);
-}
-
-.process-step-btn:hover {
-  background: var(--color-bg-subtle);
-}
-
-.process-step-btn.active {
-  background: var(--color-bg);
-}
-
-.process-step-btn.active .step-num {
+.process-header .section-number {
   color: var(--color-accent);
 }
 
-.process-step-btn.active .step-name {
-  color: var(--color-text);
+.process-header .section-title {
+  color: #ffffff;
 }
 
-.step-num {
-  font-family: var(--font-display);
-  font-size: 0.75rem;
-  font-weight: var(--weight-semibold);
-  letter-spacing: 0.1em;
-  color: var(--color-text-muted);
-  min-width: 24px;
+.process-header .section-desc {
+  color: rgba(255, 255, 255, 0.55);
+  margin: 0 auto;
 }
 
-.step-name {
-  font-size: 0.9375rem;
-  font-weight: var(--weight-medium);
-  color: var(--color-text-secondary);
-}
-
-.process-content {
+.process-three-container {
   position: relative;
-  min-height: 400px;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
 }
 
-.process-step {
-  display: none;
-  gap: var(--space-xl);
-  animation: fadeIn var(--duration-normal) var(--ease-out-quart);
-}
-
-.process-step.active {
-  display: grid;
-  grid-template-columns: 120px 1fr;
-}
-
-@media (max-width: 600px) {
-  .process-step.active {
-    grid-template-columns: 1fr;
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.step-visual {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.step-icon {
-  width: 80px;
-  height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-bg);
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius);
-  color: var(--color-accent);
-}
-
-.step-icon svg {
-  width: 32px;
-  height: 32px;
-}
-
-.step-progress {
-  flex: 1;
-  width: 1px;
-  min-height: 60px;
-  background: var(--color-border);
-  margin-top: var(--space-sm);
-  position: relative;
-}
-
-.step-progress::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
+.process-canvas {
+  display: block;
   width: 100%;
   height: 100%;
-  background: var(--color-accent);
-  transform-origin: top;
-  transform: scaleY(0);
-  animation: progressGrow 1.5s ease-out forwards;
 }
 
-@keyframes progressGrow {
-  to { transform: scaleY(1); }
-}
-
-.step-text h3 {
-  font-family: var(--font-display);
-  font-size: 1.75rem;
-  font-weight: var(--weight-bold);
-  margin-bottom: var(--space-md);
-}
-
-.step-text > p {
-  font-size: 1rem;
-  color: var(--color-text-secondary);
-  line-height: 1.7;
-  margin-bottom: var(--space-lg);
-}
-
-.step-deliverables {
-  list-style: none;
-  display: grid;
-  gap: 0.75rem;
-}
-
-.step-deliverables li {
+/* Camera Progress HUD */
+.camera-progress {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 100;
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 0.75rem;
-  font-size: 0.9375rem;
-  color: var(--color-text-secondary);
+  background: rgba(8, 8, 16, 0.88);
+  backdrop-filter: blur(20px);
+  padding: 1.25rem;
+  border-radius: 16px;
+  border: 1px solid rgba(77, 163, 255, 0.12);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-.step-deliverables li::before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  background: var(--color-accent);
+.camera-progress.hidden {
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+}
+
+.camera-progress-ring {
+  position: relative;
+  width: 90px;
+  height: 90px;
+}
+
+.camera-progress-ring svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.progress-fill {
+  transition: stroke-dashoffset 0.3s var(--ease-out-quart);
+}
+
+.camera-progress-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: baseline;
+  gap: 0.2rem;
+  font-family: var(--font-display);
+}
+
+.camera-current {
+  font-size: 1.5rem;
+  font-weight: var(--weight-bold);
+  color: var(--color-accent);
+}
+
+.camera-total {
+  font-size: 0.8rem;
+  font-weight: var(--weight-medium);
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.camera-coords {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.35);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Step Indicators */
+.step-indicators {
+  position: fixed;
+  left: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  z-index: 100;
+}
+
+.step-dot {
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  cursor: pointer;
+  transition: all 0.3s var(--ease-out-quart);
+}
+
+.step-dot:hover {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  transform: scale(1.3);
+}
+
+.step-dot.active {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  transform: scale(1.4);
+  box-shadow: 0 0 16px rgba(77, 163, 255, 0.5);
+}
+
+.step-dot.passed {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  opacity: 0.3;
+}
+
+/* Scroll Hint */
+.scroll-hint {
+  position: fixed;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  z-index: 50;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.scroll-hint.hidden {
+  opacity: 0;
+}
+
+.scroll-hint-line {
+  width: 2px;
+  height: 48px;
+  background: linear-gradient(to bottom, var(--color-accent), transparent);
+  animation: scrollHintPulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollHintPulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(0.6); }
+  50% { opacity: 1; transform: scaleY(1); }
+}
+
+.scroll-hint span {
+  font-size: 0.7rem;
+  font-weight: var(--weight-medium);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .camera-progress {
+    bottom: 1rem;
+    right: 1rem;
+    transform: scale(0.85);
+    transform-origin: bottom right;
+  }
+
+  .camera-progress.hidden {
+    opacity: 0;
+    transform: scale(0.85) translateY(20px);
+  }
+
+  .step-indicators {
+    left: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .step-indicators {
+    display: none;
+  }
+
+  .camera-progress {
+    bottom: 0.75rem;
+    right: 0.75rem;
+    padding: 1rem;
+    transform: scale(0.75);
+    transform-origin: bottom right;
+  }
+
+  .camera-progress.hidden {
+    opacity: 0;
+    transform: scale(0.75) translateY(20px);
+  }
 }
 
 /* =====================================================
