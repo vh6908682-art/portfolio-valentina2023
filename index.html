@@ -1,526 +1,697 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Valentina — Product Design & Frontend</title>
-  <script>
-    (function() {
-      const stored = localStorage.getItem('valentina-theme');
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const theme = stored || (prefersDark ? 'dark' : 'light');
-      document.documentElement.setAttribute('data-theme', theme);
-    })();
-  </script>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;450;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-  <!-- Accessibility -->
-  <a href="#main" class="skip-link">Skip to main content</a>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Valentina — Product Design & Frontend</title>
+    <script>
+      (function () {
+        const stored = localStorage.getItem("valentina-theme");
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)",
+        ).matches;
+        const theme = stored || (prefersDark ? "dark" : "light");
+        document.documentElement.setAttribute("data-theme", theme);
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;450;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Accessibility -->
+    <a href="#main" class="skip-link">Skip to main content</a>
 
-  <!-- Custom Cursor -->
-  <div class="cursor-dot" aria-hidden="true"></div>
-  <div class="cursor-ring" aria-hidden="true"></div>
+    <!-- Custom Cursor -->
+    <div class="cursor-dot" aria-hidden="true"></div>
+    <div class="cursor-ring" aria-hidden="true"></div>
 
-  <!-- Three.js Canvas -->
-  <canvas id="webgl-bg" class="webgl-bg" aria-hidden="true"></canvas>
+    <!-- Three.js Canvas -->
+    <canvas id="webgl-bg" class="webgl-bg" aria-hidden="true"></canvas>
 
-  <!-- Header -->
-  <header class="header" data-magnetic>
-    <a href="#" class="logo" data-magnetic>
-      <span class="logo-text">Valentina</span>
-      <span class="logo-badge">Design</span>
-    </a>
-    <nav class="nav">
-      <a href="#work" data-magnetic>Work</a>
-      <a href="#process" data-magnetic>Process</a>
-      <a href="#about" data-magnetic>About</a>
-      <a href="#contact" data-magnetic>Contact</a>
-    </nav>
-    <button class="theme-toggle" aria-label="Toggle theme" data-magnetic>
-      <svg class="theme-icon sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <circle cx="12" cy="12" r="4"/>
-        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
-      </svg>
-      <svg class="theme-icon moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
-      </svg>
-    </button>
-    <button class="menu-btn" aria-label="Menu" data-magnetic>
-      <span></span><span></span><span></span>
-    </button>
-  </header>
-
-  <main id="main">
-    <!-- Hero Section -->
-    <section class="hero" id="hero">
-      <div class="hero-content">
-        <div class="hero-label" data-split-text>Product Designer</div>
-        <h1 class="hero-title" data-split-text>
-          <span class="line">Crafting</span>
-          <span class="line">Digital</span>
-          <span class="line accent">Experiences</span>
-        </h1>
-        <p class="hero-desc" data-fade-up>
-          I design and build interfaces that feel inevitable. Clean systems, purposeful motion, 
-          and experiences that work beautifully at every touchpoint.
-        </p>
-        <div class="hero-stats" data-fade-up>
-          <div class="stat-item">
-            <span class="stat-num" data-count="8">0</span>
-            <span class="stat-label">Years Experience</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-num" data-count="50">0</span>
-            <span class="stat-label">Projects Delivered</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-num" data-count="20">0</span>
-            <span class="stat-label">Happy Clients</span>
-          </div>
-        </div>
-        <div class="hero-cta" data-fade-up>
-          <a href="#work" class="btn btn-primary" data-magnetic>
-            <span>View Selected Work</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M7 17L17 7M17 7H7M17 7V17"/>
-            </svg>
-          </a>
-        </div>
-      </div>
-      <div class="hero-scroll-indicator">
-        <div class="scroll-line"></div>
-        <span>Scroll</span>
-      </div>
-    </section>
-
-    <!-- Selected Work - Horizontal Scroll -->
-    <section class="work-section" id="work">
-      <div class="section-header pinned">
-        <span class="section-number">01</span>
-        <h2 class="section-title" data-split-text>Selected Work</h2>
-        <p class="section-desc">A curated collection of projects that showcase design systems, 
-        interactive experiences, and measurable results.</p>
-      </div>
-      
-      <div class="work-horizontal">
-        <div class="work-track">
-          <!-- Project 1: Clueplay.ai -->
-          <article class="work-card" data-project="0">
-            <div class="work-card-visual">
-              <div class="work-card-image">
-                <img src="assets/projects/clueplay/clueplayai1.png" alt="Clueplay.ai OTT Platform" />
-              </div>
-              <div class="work-card-overlay"></div>
-            </div>
-            <div class="work-card-content">
-              <span class="work-card-category">OTT Platform</span>
-              <h3 class="work-card-title">Clueplay.ai</h3>
-              <p class="work-card-desc">Cinematic streaming experience with immersive content discovery</p>
-              <div class="work-card-meta">
-                <span>UI/UX Design</span>
-                <span>Design System</span>
-              </div>
-              <button class="work-card-btn" data-magnetic>
-                <span>Explore Project</span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-              </button>
-            </div>
-          </article>
-
-          <!-- Project 2: Healthcare Dashboard -->
-          <article class="work-card" data-project="1">
-            <div class="work-card-visual">
-              <div class="work-card-image">
-                <img src="assets/projects/healthcare/healthcare.png" alt="Healthcare Operations Dashboard" />
-              </div>
-              <div class="work-card-overlay"></div>
-            </div>
-            <div class="work-card-content">
-              <span class="work-card-category">Enterprise SaaS</span>
-              <h3 class="work-card-title">Healthcare Dashboard</h3>
-              <p class="work-card-desc">Centralized platform for healthcare operations and patient management</p>
-              <div class="work-card-meta">
-                <span>Dashboard Design</span>
-                <span>Data Visualization</span>
-              </div>
-              <button class="work-card-btn" data-magnetic>
-                <span>Explore Project</span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-              </button>
-            </div>
-          </article>
-
-          <!-- Project 3: SpeakBetter -->
-          <article class="work-card" data-project="2">
-            <div class="work-card-visual">
-              <div class="work-card-image">
-                <img src="assets/projects/speakbetter/speakbetter1.png" alt="SpeakBetter App" />
-              </div>
-              <div class="work-card-overlay"></div>
-            </div>
-            <div class="work-card-content">
-              <span class="work-card-category">Mobile App</span>
-              <h3 class="work-card-title">SpeakBetter</h3>
-              <p class="work-card-desc">Real-time speech coaching app for confident communication</p>
-              <div class="work-card-meta">
-                <span>App Design</span>
-                <span>Micro-interactions</span>
-              </div>
-              <button class="work-card-btn" data-magnetic>
-                <span>Explore Project</span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-              </button>
-            </div>
-          </article>
-
-          <!-- Project 4: Forex Platform -->
-          <article class="work-card" data-project="3">
-            <div class="work-card-visual">
-              <div class="work-card-image">
-                <img src="assets/projects/forex/forex1.jpg" alt="Forex Trading Platform" />
-              </div>
-              <div class="work-card-overlay"></div>
-            </div>
-            <div class="work-card-content">
-              <span class="work-card-category">Fintech</span>
-              <h3 class="work-card-title">Forex Platform</h3>
-              <p class="work-card-desc">Trading dashboard with real-time data visualization and analytics</p>
-              <div class="work-card-meta">
-                <span>Trading UI</span>
-                <span>Data Design</span>
-              </div>
-              <button class="work-card-btn" data-magnetic>
-                <span>Explore Project</span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-              </button>
-            </div>
-          </article>
-
-          <!-- Project 5: Praxis Richter -->
-          <article class="work-card" data-project="4">
-            <div class="work-card-visual">
-              <div class="work-card-image">
-                <img src="assets/projects/praxis/praxis1.png" alt="Praxis Richter Dental Clinic" />
-              </div>
-              <div class="work-card-overlay"></div>
-            </div>
-            <div class="work-card-content">
-              <span class="work-card-category">Healthcare</span>
-              <h3 class="work-card-title">Praxis Richter</h3>
-              <p class="work-card-desc">Dental clinic experience designed for patient confidence</p>
-              <div class="work-card-meta">
-                <span>Web Design</span>
-                <span>Booking System</span>
-              </div>
-              <button class="work-card-btn" data-magnetic>
-                <span>Explore Project</span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-              </button>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- Process - Three.js 3D Camera Journey -->
-    <section class="process-section" id="process">
-      <div class="section-header process-header">
-        <span class="section-number">02</span>
-        <h2 class="section-title" data-split-text>Design Process</h2>
-        <p class="section-desc">A methodical approach to creating experiences that matter. Scroll to journey through each step in 3D space.</p>
-      </div>
-
-      <div class="process-three-container" id="scroll-container">
-        <canvas id="process-canvas" class="process-canvas"></canvas>
-
-        <div class="camera-progress hidden">
-          <div class="camera-progress-ring">
-            <svg viewBox="0 0 100 100">
-              <circle class="progress-bg" cx="50" cy="50" r="45" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="2"/>
-              <circle class="progress-fill" cx="50" cy="50" r="45" fill="none" stroke="var(--color-accent)" stroke-width="3" stroke-dasharray="283" stroke-dashoffset="283" stroke-linecap="round"/>
-            </svg>
-            <div class="camera-progress-text">
-              <span class="camera-current">01</span>
-              <span class="camera-total">/ 05</span>
-            </div>
-          </div>
-          <div class="camera-coords">
-            <span class="coord-x">x: 0</span>
-            <span class="coord-y">y: 0</span>
-            <span class="coord-z">z: 0</span>
-          </div>
-        </div>
-
-        <div class="step-indicators">
-          <div class="step-dot active" data-step="0"></div>
-          <div class="step-dot" data-step="1"></div>
-          <div class="step-dot" data-step="2"></div>
-          <div class="step-dot" data-step="3"></div>
-          <div class="step-dot" data-step="4"></div>
-        </div>
-
-        <div class="scroll-hint">
-          <div class="scroll-hint-line"></div>
-          <span>Scroll to navigate</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- Skills - Interactive Visualization -->
-    <section class="skills-section" id="skills">
-      <div class="section-header">
-        <span class="section-number">03</span>
-        <h2 class="section-title" data-split-text>Tools & Expertise</h2>
-        <p class="section-desc">Technologies and skills I've honed over 8 years of crafting digital experiences.</p>
-      </div>
-
-      <div class="skills-grid">
-        <div class="skill-category" data-category="design">
-          <h3 class="skill-cat-title">Design</h3>
-          <div class="skill-items">
-            <div class="skill-item" data-level="95">
-              <span class="skill-name">Figma</span>
-              <div class="skill-bar"><div class="skill-fill"></div></div>
-            </div>
-            <div class="skill-item" data-level="90">
-              <span class="skill-name">UI/UX Design</span>
-              <div class="skill-bar"><div class="skill-fill"></div></div>
-            </div>
-            <div class="skill-item" data-level="88">
-              <span class="skill-name">Design Systems</span>
-              <div class="skill-bar"><div class="skill-fill"></div></div>
-            </div>
-            <div class="skill-item" data-level="85">
-              <span class="skill-name">Prototyping</span>
-              <div class="skill-bar"><div class="skill-fill"></div></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="skill-category" data-category="dev">
-          <h3 class="skill-cat-title">Development</h3>
-          <div class="skill-items">
-            <div class="skill-item" data-level="88">
-              <span class="skill-name">HTML/CSS</span>
-              <div class="skill-bar"><div class="skill-fill"></div></div>
-            </div>
-            <div class="skill-item" data-level="82">
-              <span class="skill-name">JavaScript</span>
-              <div class="skill-bar"><div class="skill-fill"></div></div>
-            </div>
-            <div class="skill-item" data-level="90">
-              <span class="skill-name">Webflow</span>
-              <div class="skill-bar"><div class="skill-fill"></div></div>
-            </div>
-            <div class="skill-item" data-level="85">
-              <span class="skill-name">WordPress</span>
-              <div class="skill-bar"><div class="skill-fill"></div></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="skill-category" data-category="strategy">
-          <h3 class="skill-cat-title">Strategy</h3>
-          <div class="skill-items">
-            <div class="skill-item" data-level="85">
-              <span class="skill-name">User Research</span>
-              <div class="skill-bar"><div class="skill-fill"></div></div>
-            </div>
-            <div class="skill-item" data-level="80">
-              <span class="skill-name">Analytics</span>
-              <div class="skill-bar"><div class="skill-fill"></div></div>
-            </div>
-            <div class="skill-item" data-level="88">
-              <span class="skill-name">A/B Testing</span>
-              <div class="skill-bar"><div class="skill-fill"></div></div>
-            </div>
-            <div class="skill-item" data-level="82">
-              <span class="skill-name">SEO</span>
-              <div class="skill-bar"><div class="skill-fill"></div></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- About -->
-    <section class="about-section" id="about">
-      <div class="about-container">
-        <div class="about-visual">
-          <div class="about-image-wrapper">
-            <img src="assets/photo.png" alt="Valentina - Product Designer" />
-            <div class="about-image-frame"></div>
-          </div>
-          <div class="about-badges">
-            <span class="badge">8+ Years</span>
-            <span class="badge">Remote</span>
-            <span class="badge">Available</span>
-          </div>
-        </div>
-        <div class="about-content">
-          <span class="section-number">04</span>
-          <h2 class="section-title" data-split-text>About Me</h2>
-          <div class="about-text">
-            <p>I'm Valentina, a product designer who believes in the power of restraint. 
-            Every element should earn its place. Every animation should have purpose.</p>
-            <p>Over the past 8 years, I've helped startups and established companies create 
-            digital experiences that users genuinely enjoy. From healthcare dashboards to 
-            streaming platforms, I approach each project with the same question: 
-            <em>How can we make this simpler?</em></p>
-            <p>When I'm not designing, you'll find me exploring new cities, experimenting 
-            with generative art, or perfecting my espresso technique.</p>
-          </div>
-          <div class="about-cta">
-            <a href="#contact" class="btn btn-primary" data-magnetic>Let's Work Together</a>
-            <a href="https://www.behance.net/valentihernand137" target="_blank" rel="noopener" class="btn btn-text" data-magnetic>
-              <span>View on Behance</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M7 17L17 7M17 7H7M17 7V17"/>
-              </svg>
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Contact -->
-    <section class="contact-section" id="contact">
-      <div class="contact-container">
-        <div class="contact-content">
-          <span class="section-number">05</span>
-          <h2 class="section-title" data-split-text>Let's Create Something Great</h2>
-          <p class="contact-desc">Have a project in mind? I'd love to hear about it. 
-          Let's discuss how we can work together to bring your vision to life.</p>
-          <div class="contact-links">
-            <a href="mailto:hello@valentinadesign.com" class="contact-link" data-magnetic>
-              <span class="link-label">Email</span>
-              <span class="link-value">hello@valentinadesign.com</span>
-            </a>
-            <a href="https://www.behance.net/valentihernand137" target="_blank" rel="noopener" class="contact-link" data-magnetic>
-              <span class="link-label">Behance</span>
-              <span class="link-value">@valentinadesign</span>
-            </a>
-            <a href="https://dribbble.com/ValentinaDesigner0120" target="_blank" rel="noopener" class="contact-link" data-magnetic>
-              <span class="link-label">Dribbble</span>
-              <span class="link-value">@ValentinaDesigner</span>
-            </a>
-          </div>
-        </div>
-        <div class="contact-cta-large">
-          <a href="mailto:hello@valentinadesign.com" class="cta-circle" data-magnetic>
-            <span class="cta-text">Start a Project</span>
-            <div class="cta-arrow">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M7 17L17 7M17 7H7M17 7V17"/>
-              </svg>
-            </div>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-      <div class="footer-content">
-        <div class="footer-brand">
-          <span class="footer-logo">Valentina</span>
-          <span class="footer-tagline">Designing with intention</span>
-        </div>
-        <div class="footer-links">
-          <a href="#work">Work</a>
-          <a href="#process">Process</a>
-          <a href="#about">About</a>
-          <a href="#contact">Contact</a>
-        </div>
-        <div class="footer-socials">
-          <a href="https://www.behance.net/valentihernand137" target="_blank" rel="noopener">Be</a>
-          <a href="https://dribbble.com/ValentinaDesigner0120" target="_blank" rel="noopener">Dr</a>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <span>2024 Valentina Design. All rights reserved.</span>
-        <button class="back-top" data-magnetic>
-          <span>Back to top</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 19V5M5 12l7-7 7 7"/>
-          </svg>
-        </button>
-      </div>
-    </footer>
-  </main>
-
-  <!-- Project Modal -->
-  <div class="project-modal" id="project-modal" hidden>
-    <div class="modal-backdrop"></div>
-    <div class="modal-container">
-      <button class="modal-close" aria-label="Close">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M18 6L6 18M6 6l12 12"/>
+    <!-- Header -->
+    <header class="header" data-magnetic>
+      <a href="#" class="logo" data-magnetic>
+        <span class="logo-text">Valentina</span>
+        <span class="logo-badge">Design</span>
+      </a>
+      <nav class="nav">
+        <a href="#work" data-magnetic>Work</a>
+        <a href="#process" data-magnetic>Process</a>
+        <a href="#about" data-magnetic>About</a>
+        <a href="#contact" data-magnetic>Contact</a>
+      </nav>
+      <button class="theme-toggle" aria-label="Toggle theme" data-magnetic>
+        <svg
+          class="theme-icon sun"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <circle cx="12" cy="12" r="4" />
+          <path
+            d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"
+          />
+        </svg>
+        <svg
+          class="theme-icon moon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
         </svg>
       </button>
-      <div class="modal-content">
-        <div class="modal-header">
-          <span class="modal-category"></span>
-          <h2 class="modal-title"></h2>
-          <p class="modal-desc"></p>
+      <button class="menu-btn" aria-label="Menu" data-magnetic>
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main id="main">
+      <!-- Hero Section -->
+      <section class="hero" id="hero">
+        <div class="hero-content">
+          <div class="hero-label" data-split-text>Product Designer</div>
+          <h1 class="hero-title" data-split-text>
+            <span class="line">Crafting</span>
+            <span class="line">Digital</span>
+            <span class="line accent">Experiences</span>
+          </h1>
+          <p class="hero-desc" data-fade-up>
+            I design and build interfaces that feel inevitable. Clean systems,
+            purposeful motion, and experiences that work beautifully at every
+            touchpoint.
+          </p>
+          <div class="hero-stats" data-fade-up>
+            <div class="stat-item">
+              <span class="stat-num" data-count="5">0</span>
+              <span class="stat-label">Years Experience</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num" data-count="50">0</span>
+              <span class="stat-label">Projects Delivered</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num" data-count="20">0</span>
+              <span class="stat-label">Happy Clients</span>
+            </div>
+          </div>
+          <div class="hero-cta" data-fade-up>
+            <a href="#work" class="btn btn-primary" data-magnetic>
+              <span>View Selected Work</span>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M7 17L17 7M17 7H7M17 7V17" />
+              </svg>
+            </a>
+          </div>
         </div>
-        <div class="modal-gallery">
-          <div class="gallery-main">
-            <img src="" alt="" />
-          </div>
-          <div class="gallery-thumbs"></div>
+        <div class="hero-scroll-indicator">
+          <div class="scroll-line"></div>
+          <span>Scroll</span>
         </div>
-        <div class="modal-details">
-          <div class="detail-col">
-            <h4>Challenge</h4>
-            <p class="detail-challenge"></p>
-          </div>
-          <div class="detail-col">
-            <h4>Solution</h4>
-            <p class="detail-solution"></p>
-          </div>
-          <div class="detail-col">
-            <h4>Results</h4>
-            <p class="detail-results"></p>
+      </section>
+
+      <!-- Selected Work - Horizontal Scroll -->
+      <section style="text-align: center;">
+        <h2 class="section-title" data-split-text>Selected Work</h2>
+        <p class="section-desc" style="margin: 0 auto;">
+          A curated collection of projects that showcase design systems,
+          interactive experiences, and measurable results.
+        </p>
+      </section>
+      <section class="work-section" id="work">
+        <div class="section-header pinned"></div>
+
+        <div class="work-horizontal">
+          <div class="work-track">
+            <!-- Project 1: Clueplay.ai -->
+            <article class="work-card" data-project="0">
+              <div class="work-card-visual">
+                <div class="work-card-image">
+                  <img
+                    src="assets/projects/clueplay/clueplayai1.png"
+                    alt="Clueplay.ai OTT Platform"
+                  />
+                </div>
+                <div class="work-card-overlay"></div>
+              </div>
+              <div class="work-card-content">
+                <span class="work-card-category">OTT Platform</span>
+                <h3 class="work-card-title">Clueplay.ai</h3>
+                <p class="work-card-desc">
+                  Cinematic streaming experience with immersive content
+                  discovery
+                </p>
+                <div class="work-card-meta">
+                  <span>UI/UX Design</span>
+                  <span>Design System</span>
+                </div>
+                <button class="work-card-btn" data-magnetic>
+                  <span>Explore Project</span>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </div>
+            </article>
+
+            <!-- Project 2: Healthcare Dashboard -->
+            <article class="work-card" data-project="1">
+              <div class="work-card-visual">
+                <div class="work-card-image">
+                  <img
+                    src="assets/projects/healthcare/healthcare.png"
+                    alt="Healthcare Operations Dashboard"
+                  />
+                </div>
+                <div class="work-card-overlay"></div>
+              </div>
+              <div class="work-card-content">
+                <span class="work-card-category">Enterprise SaaS</span>
+                <h3 class="work-card-title">Healthcare Dashboard</h3>
+                <p class="work-card-desc">
+                  Centralized platform for healthcare operations and patient
+                  management
+                </p>
+                <div class="work-card-meta">
+                  <span>Dashboard Design</span>
+                  <span>Data Visualization</span>
+                </div>
+                <button class="work-card-btn" data-magnetic>
+                  <span>Explore Project</span>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </div>
+            </article>
+
+            <!-- Project 3: SpeakBetter -->
+            <article class="work-card" data-project="2">
+              <div class="work-card-visual">
+                <div class="work-card-image">
+                  <img
+                    src="assets/projects/speakbetter/speakbetter1.png"
+                    alt="SpeakBetter App"
+                  />
+                </div>
+                <div class="work-card-overlay"></div>
+              </div>
+              <div class="work-card-content">
+                <span class="work-card-category">Mobile App</span>
+                <h3 class="work-card-title">SpeakBetter</h3>
+                <p class="work-card-desc">
+                  Real-time speech coaching app for confident communication
+                </p>
+                <div class="work-card-meta">
+                  <span>App Design</span>
+                  <span>Micro-interactions</span>
+                </div>
+                <button class="work-card-btn" data-magnetic>
+                  <span>Explore Project</span>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </div>
+            </article>
+
+            <!-- Project 4: Forex Platform -->
+            <article class="work-card" data-project="3">
+              <div class="work-card-visual">
+                <div class="work-card-image">
+                  <img
+                    src="assets/projects/forex/forex1.jpg"
+                    alt="Forex Trading Platform"
+                  />
+                </div>
+                <div class="work-card-overlay"></div>
+              </div>
+              <div class="work-card-content">
+                <span class="work-card-category">Fintech</span>
+                <h3 class="work-card-title">Forex Platform</h3>
+                <p class="work-card-desc">
+                  Trading dashboard with real-time data visualization and
+                  analytics
+                </p>
+                <div class="work-card-meta">
+                  <span>Trading UI</span>
+                  <span>Data Design</span>
+                </div>
+                <button class="work-card-btn" data-magnetic>
+                  <span>Explore Project</span>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </div>
+            </article>
+
+            <!-- Project 5: Praxis Richter -->
+            <article class="work-card" data-project="4">
+              <div class="work-card-visual">
+                <div class="work-card-image">
+                  <img
+                    src="assets/projects/praxis/praxis1.png"
+                    alt="Praxis Richter Dental Clinic"
+                  />
+                </div>
+                <div class="work-card-overlay"></div>
+              </div>
+              <div class="work-card-content">
+                <span class="work-card-category">Healthcare</span>
+                <h3 class="work-card-title">Praxis Richter</h3>
+                <p class="work-card-desc">
+                  Dental clinic experience designed for patient confidence
+                </p>
+                <div class="work-card-meta">
+                  <span>Web Design</span>
+                  <span>Booking System</span>
+                </div>
+                <button class="work-card-btn" data-magnetic>
+                  <span>Explore Project</span>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </div>
+            </article>
           </div>
         </div>
-        <div class="modal-nav">
-          <button class="modal-prev" data-magnetic>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </section>
+
+      <!-- Process - Three.js 3D Camera Journey -->
+      <section class="process-section" id="process">
+        <div class="section-header process-header">
+          
+          <h2 class="section-title" data-split-text>Design Process</h2>
+          <p class="section-desc">
+            A methodical approach to creating experiences that matter. Scroll to
+            journey through each step in 3D space.
+          </p>
+        </div>
+
+        <div class="process-three-container" id="scroll-container">
+          <canvas id="process-canvas" class="process-canvas"></canvas>
+
+          <div class="camera-progress hidden">
+            <div class="camera-progress-ring">
+              <svg viewBox="0 0 100 100">
+                <circle
+                  class="progress-bg"
+                  cx="50"
+                  cy="50"
+                  r="45"
+                  fill="none"
+                  stroke="rgba(255,255,255,0.08)"
+                  stroke-width="2"
+                />
+                <circle
+                  class="progress-fill"
+                  cx="50"
+                  cy="50"
+                  r="45"
+                  fill="none"
+                  stroke="var(--color-accent)"
+                  stroke-width="3"
+                  stroke-dasharray="283"
+                  stroke-dashoffset="283"
+                  stroke-linecap="round"
+                />
+              </svg>
+              <div class="camera-progress-text">
+                <span class="camera-current">01</span>
+                <span class="camera-total">/ 05</span>
+              </div>
+            </div>
+            <div class="camera-coords">
+              <span class="coord-x">x: 0</span>
+              <span class="coord-y">y: 0</span>
+              <span class="coord-z">z: 0</span>
+            </div>
+          </div>
+
+          <div class="step-indicators">
+            <div class="step-dot active" data-step="0"></div>
+            <div class="step-dot" data-step="1"></div>
+            <div class="step-dot" data-step="2"></div>
+            <div class="step-dot" data-step="3"></div>
+            <div class="step-dot" data-step="4"></div>
+          </div>
+
+          <div class="scroll-hint">
+            <div class="scroll-hint-line"></div>
+            <span>Scroll to navigate</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Skills - Interactive Visualization -->
+      <section class="skills-section" id="skills">
+        <div class="section-header">
+          <span class="section-number">03</span>
+          <h2 class="section-title" data-split-text>Tools & Expertise</h2>
+          <p class="section-desc">
+            Technologies and skills I've honed over 5 years of crafting digital
+            experiences.
+          </p>
+        </div>
+
+        <div class="skills-grid">
+          <div class="skill-category" data-category="design">
+            <h3 class="skill-cat-title">Design</h3>
+            <div class="skill-items">
+              <div class="skill-item" data-level="95">
+                <span class="skill-name">Figma</span>
+                <div class="skill-bar"><div class="skill-fill"></div></div>
+              </div>
+              <div class="skill-item" data-level="90">
+                <span class="skill-name">UI/UX Design</span>
+                <div class="skill-bar"><div class="skill-fill"></div></div>
+              </div>
+              <div class="skill-item" data-level="88">
+                <span class="skill-name">Design Systems</span>
+                <div class="skill-bar"><div class="skill-fill"></div></div>
+              </div>
+              <div class="skill-item" data-level="85">
+                <span class="skill-name">Prototyping</span>
+                <div class="skill-bar"><div class="skill-fill"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="skill-category" data-category="dev">
+            <h3 class="skill-cat-title">Development</h3>
+            <div class="skill-items">
+              <div class="skill-item" data-level="88">
+                <span class="skill-name">HTML/CSS</span>
+                <div class="skill-bar"><div class="skill-fill"></div></div>
+              </div>
+              <div class="skill-item" data-level="82">
+                <span class="skill-name">JavaScript</span>
+                <div class="skill-bar"><div class="skill-fill"></div></div>
+              </div>
+              <div class="skill-item" data-level="90">
+                <span class="skill-name">Webflow</span>
+                <div class="skill-bar"><div class="skill-fill"></div></div>
+              </div>
+              <div class="skill-item" data-level="85">
+                <span class="skill-name">WordPress</span>
+                <div class="skill-bar"><div class="skill-fill"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="skill-category" data-category="strategy">
+            <h3 class="skill-cat-title">Strategy</h3>
+            <div class="skill-items">
+              <div class="skill-item" data-level="85">
+                <span class="skill-name">User Research</span>
+                <div class="skill-bar"><div class="skill-fill"></div></div>
+              </div>
+              <div class="skill-item" data-level="80">
+                <span class="skill-name">Analytics</span>
+                <div class="skill-bar"><div class="skill-fill"></div></div>
+              </div>
+              <div class="skill-item" data-level="88">
+                <span class="skill-name">A/B Testing</span>
+                <div class="skill-bar"><div class="skill-fill"></div></div>
+              </div>
+              <div class="skill-item" data-level="82">
+                <span class="skill-name">SEO</span>
+                <div class="skill-bar"><div class="skill-fill"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- About -->
+      <section class="about-section" id="about">
+        <div class="about-container">
+          <div class="about-visual">
+            <div class="about-image-wrapper">
+              <img src="assets/photo.png" alt="Valentina - Product Designer" />
+              <div class="about-image-frame"></div>
+            </div>
+          </div>
+          <div class="about-content">
+            <h2 class="section-title" data-split-text>About Me</h2>
+            <div class="about-text">
+              <p>
+                I'm Valentina, a product designer who believes in the power of
+                restraint. Every element should earn its place. Every animation
+                should have purpose.
+              </p>
+              <p>
+                Over the past 5 years, I've helped startups and established
+                companies create digital experiences that users genuinely enjoy.
+                From healthcare dashboards to streaming platforms, I approach
+                each project with the same question:
+                <em>How can we make this simpler?</em>
+              </p>
+              <p>
+                When I'm not designing, you'll find me exploring new cities,
+                experimenting with generative art, or perfecting my espresso
+                technique.
+              </p>
+            </div>
+            <div class="about-cta">
+              <a href="#contact" class="btn btn-primary" data-magnetic
+                >Let's Work Together</a
+              >
+              <a
+                href="https://www.behance.net/valentihernand137"
+                target="_blank"
+                rel="noopener"
+                class="btn btn-text"
+                data-magnetic
+              >
+                <span>View on Behance</span>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M7 17L17 7M17 7H7M17 7V17" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section class="contact-section" id="contact">
+        <div class="contact-container">
+          <div class="contact-content">
+            <h2 class="section-title" data-split-text>
+              Let's Create Something Great
+            </h2>
+            <p class="contact-desc">
+              Have a project in mind? I'd love to hear about it. Let's discuss
+              how we can work together to bring your vision to life.
+            </p>
+            <div class="contact-links">
+              <a
+                href="https://www.behance.net/valentihernand137"
+                target="_blank"
+                rel="noopener"
+                class="contact-link"
+                data-magnetic
+              >
+                <span class="link-label">Behance</span>
+                <span class="link-value">@valentinadesign</span>
+              </a>
+              <a
+                href="https://dribbble.com/ValentinaDesigner0120"
+                target="_blank"
+                rel="noopener"
+                class="contact-link"
+                data-magnetic
+              >
+                <span class="link-label">Dribbble</span>
+                <span class="link-value">@ValentinaDesigner</span>
+              </a>
+            </div>
+          </div>
+          <div class="contact-cta-large">
+            <a
+              href="mailto:hello@valentinadesign.com"
+              class="cta-circle"
+              data-magnetic
+            >
+              <span class="cta-text">Start a Project</span>
+              <div class="cta-arrow">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M7 17L17 7M17 7H7M17 7V17" />
+                </svg>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <div class="footer-content">
+          <div class="footer-brand">
+            <span class="footer-logo">Valentina</span>
+            <span class="footer-tagline">Designing with intention</span>
+          </div>
+          <div class="footer-links">
+            <a href="#work">Work</a>
+            <a href="#process">Process</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+          </div>
+          <div class="footer-socials">
+            <a
+              href="https://www.behance.net/valentihernand137"
+              target="_blank"
+              rel="noopener"
+              >Be</a
+            >
+            <a
+              href="https://dribbble.com/ValentinaDesigner0120"
+              target="_blank"
+              rel="noopener"
+              >Dr</a
+            >
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>2024 Valentina Design. All rights reserved.</span>
+          <button class="back-top" data-magnetic>
+            <span>Back to top</span>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M12 19V5M5 12l7-7 7 7" />
             </svg>
-            <span>Previous Project</span>
           </button>
-          <button class="modal-next" data-magnetic>
-            <span>Next Project</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
-          </button>
+        </div>
+      </footer>
+    </main>
+
+    <!-- Project Modal -->
+    <div class="project-modal" id="project-modal" hidden>
+      <div class="modal-backdrop"></div>
+      <div class="modal-container">
+        <button class="modal-close" aria-label="Close">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        </button>
+        <div class="modal-content">
+          <div class="modal-header">
+            <span class="modal-category"></span>
+            <h2 class="modal-title"></h2>
+            <p class="modal-desc"></p>
+          </div>
+          <div class="modal-gallery">
+            <div class="gallery-main">
+              <img src="" alt="" />
+            </div>
+            <div class="gallery-thumbs"></div>
+          </div>
+          <div class="modal-details">
+            <div class="detail-col">
+              <h4>Challenge</h4>
+              <p class="detail-challenge"></p>
+            </div>
+            <div class="detail-col">
+              <h4>Solution</h4>
+              <p class="detail-solution"></p>
+            </div>
+            <div class="detail-col">
+              <h4>Results</h4>
+              <p class="detail-results"></p>
+            </div>
+          </div>
+          <div class="modal-nav">
+            <button class="modal-prev" data-magnetic>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+              </svg>
+              <span>Previous Project</span>
+            </button>
+            <button class="modal-next" data-magnetic>
+              <span>Next Project</span>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Scripts -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="script.js"></script>
-</body>
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="script.js"></script>
+  </body>
 </html>

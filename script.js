@@ -161,9 +161,10 @@
 
     animate();
 
-    // Magnetic effect for interactive elements
+    // Magnetic effect for interactive elements (exclude header)
     const magneticElements = document.querySelectorAll('[data-magnetic]');
     magneticElements.forEach(el => {
+      if (el.closest('.header')) return;
       el.addEventListener('mousemove', (e) => {
         const rect = el.getBoundingClientRect();
         const x = e.clientX - rect.left - rect.width / 2;
@@ -176,9 +177,10 @@
       });
     });
 
-    // Hover states
+    // Hover states (exclude header)
     const hoverElements = document.querySelectorAll('a, button, .work-card, [data-magnetic]');
     hoverElements.forEach(el => {
+      if (el.closest('.header')) return;
       el.addEventListener('mouseenter', () => {
         cursorRing.style.transform = 'translate(-50%, -50%) scale(1.5)';
         cursorRing.style.opacity = '0.3';
