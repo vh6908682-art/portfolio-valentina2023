@@ -4,329 +4,184 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio | Valentina</title>
+    <title>Charity Jenkins | Figma UI/UX and Klaviyo Email Designer</title>
+    <meta name="description" content="Charity Jenkins — Figma UI/UX Designer and Klaviyo Email Design Specialist creating high-converting websites, landing pages and email marketing systems for e-commerce brands.">
+
+    <!-- theme before paint (prevents flash) -->
+    <script>
+      if (localStorage.getItem('theme') === 'dark') document.documentElement.classList.add('dark-mode');
+      document.documentElement.classList.add('reveal-on');
+    </script>
 
     <!-- custom css-->
     <link rel="stylesheet" href="style.css">
 
     <!--box icon-->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
-    <!-- swiper css -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-
 </head>
-<body>
+<body class="is-home">
 
     <!--header design-->
     <header class="header">
-        <a href="#" class="logo">Valentina.</a>
+        <a href="#home" class="logo">Charity<span>.</span></a>
 
         <nav class="navbar">
             <a href="#home" class="active">Home</a>
-            <a href="#about">About</a>
-            <a href="#services">Services</a>
-            <a href="#portfolio">Portfolio</a>
+            <a href="#services">What I Do</a>
+            <a href="ui-ux.html">UI/UX</a>
+            <a href="email.html">Email Design</a>
             <a href="#contact">Contact</a>
         </nav>
 
         <div class="bx bx-moon" id="darkMode-icon"></div>
         <div class="bx bx-menu" id="menu-icon"></div>
-
     </header>
-    
 
-    <!--home section-->
+
+    <!--home section — the two posters fill the whole first screen-->
     <section class="home" id="home">
 
-        <div class="home-content">
-            <h3>Hello, I am</h3>
-            <h1>Valentina</h1>
-            <p>I design and build interfaces that feel inevitable. Clean systems, purposeful motion, and experiences that work beautifully at every touchpoint.</p>
+        <div class="split-hero">
 
-            <div class="social-media">
-                <a href="https://www.behance.net/valentihernand137" target="_blank" rel="noopener"><i class='bx bxl-behance'></i></a>
-                <a href="https://dribbble.com/ValentinaDesigner0120" target="_blank" rel="noopener"><i class='bx bxl-dribbble'></i></a>
+            <a href="email.html" class="split-panel is-email">
+                <img src="images/hero-email.jpg" alt="Klaviyo email design work">
+                <span class="split-tint"></span>
+                <span class="split-label">
+                    <span class="split-kicker">Klaviyo · Flows · Campaigns</span>
+                    <span class="split-name">Email Design</span>
+                    <span class="split-cta">View projects <i class='bx bx-right-arrow-alt'></i></span>
+                </span>
+                <span class="split-vlabel">Email Design</span>
+            </a>
+
+            <a href="ui-ux.html" class="split-panel is-uiux">
+                <img src="images/hero-ui-ux.jpg" alt="Figma UI/UX design work">
+                <span class="split-tint"></span>
+                <span class="split-label">
+                    <span class="split-kicker">Figma · Web · Product</span>
+                    <span class="split-name">UI/UX Design</span>
+                    <span class="split-cta">View projects <i class='bx bx-right-arrow-alt'></i></span>
+                </span>
+                <span class="split-vlabel">UI/UX Design</span>
+            </a>
+
+            <span class="split-scrim"></span>
+        </div>
+
+        <div class="home-intro">
+            <div class="intro-circle">
+                <h3>Hello, I'm</h3>
+                <h1>Charity Jenkins</h1>
+                <p class="home-title">Figma UI/UX and Klaviyo Email Designer</p>
+                <p class="home-lead">I design digital experiences that connect brand, user experience, and revenue.</p>
+
+                <div class="social-media">
+                    <a href="https://www.behance.net/charityj0902" target="_blank" rel="noopener" aria-label="Behance"><i class='bx bxl-behance'></i></a>
+                </div>
             </div>
-
-            <a href="#contact" class="btn">Contact Me</a>
         </div>
 
-        <div class="profession-container">
-            <div class="profession-box">
-
-                <div class="profession" style="--i:0;">
-                    <i class='bx bx-palette'></i>
-                    <h3>Product Designer</h3>
-                </div>
-
-                <div class="profession" style="--i:1;">
-                    <i class='bx bx-brush'></i>
-                    <h3>UI/UX Designer</h3>
-                </div>
-
-                <div class="profession" style="--i:2;">
-                    <i class='bx bx-devices'></i>
-                    <h3>Web Designer</h3>
-                </div>
-
-                <div class="profession" style="--i:3;">
-                    <i class='bx bx-shape-circle'></i>
-                    <h3>Interaction Designer</h3>
-                </div>
-
-                <div class="circle"></div>
-            </div>
-
-            <div class="overlay"></div>
-        </div>
-
-        <div class="home-img">
-            <img src="images/dragonpng.png" alt=""> 
-        </div>
+        <p class="split-hint">Move toward either side to expand it — click or tap to open the projects.</p>
 
     </section>
 
-    <!--about section-->
-    <section class="about" id="about">
-
-        <div class="about-img">
-            <img src="images/photo.png" alt="Valentina - Product Designer">
-        </div>
-
-        <div class="about-content">
-            <h2 class="heading">About <span>Valentina</span></h2>
-            <h3>Product Designer Crafting Digital Experiences</h3>
-            <p>I'm Valentina, a product designer who believes in the power of restraint. Every element should earn its place. Every animation should have purpose. Over the past 5 years, I've helped startups and established companies create digital experiences that users genuinely enjoy. From healthcare dashboards to streaming platforms, I approach each project with the same question: How can we make this simpler?</p>
-            <a href="#contact" class="btn">Let's Work Together</a>
-        </div>
-
-    </section>
-
-    <!--service section-->
+    <!--what i do section-->
     <section class="services" id="services">
-        <h2  class="heading">Valentina <span>Services</span></h2>
+        <h2 class="heading">What I <span>Do</span></h2>
+
+        <p class="section-intro">As a Figma UI/UX Designer and Klaviyo Email Design Specialist, I create high-converting websites, landing pages, and email marketing systems for e-commerce brands and growing businesses.</p>
+
+        <p class="section-intro">My work combines strategic UX thinking with clean visual design — from intuitive interfaces and responsive layouts to Klaviyo email templates, automated flows, and customer journeys built to increase engagement and retention. I don't just design attractive screens and emails; I build experiences that guide customers from first interaction to purchase and long-term loyalty.</p>
 
         <div class="services-container">
 
             <div class="services-box">
                 <i class='bx bxs-paint'></i>
                 <h3>UI/UX Design</h3>
-                <p>Creating intuitive interfaces and seamless user experiences through research-driven design, prototyping, and Figma-based design systems.</p>
-                <a href="#contact" class="btn">Get In Touch</a>
+                <p>End-to-end product and interface design in Figma — user flows, wireframes, prototypes and design systems built around how people actually use your product.</p>
+            </div>
+
+            <div class="services-box">
+                <i class='bx bx-envelope'></i>
+                <h3>Klaviyo Email Design</h3>
+                <p>On-brand, responsive email templates and campaigns designed in Figma and built in Klaviyo, engineered to earn opens, clicks and revenue.</p>
+            </div>
+
+            <div class="services-box">
+                <i class='bx bx-git-branch'></i>
+                <h3>Flows &amp; Automation</h3>
+                <p>Welcome, abandoned cart, browse abandonment, post-purchase and win-back flows mapped as complete customer journeys — not one-off emails.</p>
             </div>
 
             <div class="services-box">
                 <i class='bx bx-devices'></i>
-                <h3>Product Design</h3>
-                <p>End-to-end product design from discovery to delivery — working closely with teams to craft digital products that solve real problems.</p>
-                <a href="#contact" class="btn">Get In Touch</a>
-            </div>
-
-            <div class="services-box">
-                <i class='bx bx-code-alt'></i>
-                <h3>Web Design</h3>
-                <p>Designing and building responsive websites with Webflow and WordPress that are visually compelling and conversion-focused.</p>
-                <a href="#contact" class="btn">Get In Touch</a>
+                <h3>Websites &amp; Landing Pages</h3>
+                <p>Conversion-focused websites and landing pages with responsive layouts, clear hierarchy and messaging that carries visitors to the next step.</p>
             </div>
 
         </div>
-        
+
+        <div class="work-switch">
+            <a href="ui-ux.html" class="work-card">
+                <i class='bx bx-layout'></i>
+                <div>
+                    <h4>UI/UX Projects</h4>
+                    <p>Product, dashboard and web design case studies</p>
+                </div>
+                <i class='bx bx-right-arrow-alt work-arrow'></i>
+            </a>
+
+            <a href="email.html" class="work-card is-email">
+                <i class='bx bx-mail-send'></i>
+                <div>
+                    <h4>Email Design Projects</h4>
+                    <p>Klaviyo campaigns, templates and flow systems</p>
+                </div>
+                <i class='bx bx-right-arrow-alt work-arrow'></i>
+            </a>
+        </div>
     </section>
 
-    <!--portfolio section-->
-    <section class="portfolio" id="portfolio">
-        <h2 class="heading">My Latest <span>Projects</span></h2>
+    <!--contact section-->
+    <section class="contact" id="contact">
+        <h2 class="heading">Let's <span>Work Together</span></h2>
+        <p class="section-intro">Have a product to design or an email program to build? Tell me about it and I'll get back to you.</p>
 
-        <div class="portfolio-container">
-
-            <div class="portfolio-box" data-project="0">
-                <img src="images/projects/clueplay/clueplayai1.png" alt="Clueplay.ai OTT Platform">
-
-                <div class="portfolio-layer">
-                    <h4>Clueplay.ai</h4>
-                    <p>OTT Platform · UI/UX Design</p>
-                    <a href="https://www.behance.net/valentihernand137" target="_blank" rel="noopener"><i class='bx bx-link-external'></i></a>
-                </div>
+        <form action="#">
+            <div class="input-box">
+                <input type="text" placeholder="Full Name">
+                <input type="email" placeholder="Email Address">
             </div>
 
-            <div class="portfolio-box" data-project="1">
-                <img src="images/projects/healthcare/healthcare.png" alt="Healthcare Operations Dashboard">
-
-                <div class="portfolio-layer">
-                    <h4>Healthcare Dashboard</h4>
-                    <p>Enterprise SaaS · Dashboard Design</p>
-                    <a href="https://www.behance.net/valentihernand137" target="_blank" rel="noopener"><i class='bx bx-link-external'></i></a>
-                </div>
+            <div class="input-box">
+                <input type="tel" placeholder="Phone Number">
+                <input type="text" placeholder="Subject">
             </div>
 
-            <div class="portfolio-box" data-project="2">
-                <img src="images/projects/speakbetter/speakbetter1.png" alt="SpeakBetter Mobile App">
-
-                <div class="portfolio-layer">
-                    <h4>SpeakBetter</h4>
-                    <p>Mobile App · Micro-interactions</p>
-                    <a href="https://www.behance.net/valentihernand137" target="_blank" rel="noopener"><i class='bx bx-link-external'></i></a>
-                </div>
-            </div>
-
-            <div class="portfolio-box" data-project="3">
-                <img src="images/projects/forex/forex1.jpg" alt="Forex Trading Platform">
-
-                <div class="portfolio-layer">
-                    <h4>Forex Platform</h4>
-                    <p>Fintech · Trading UI</p>
-                    <a href="https://www.behance.net/valentihernand137" target="_blank" rel="noopener"><i class='bx bx-link-external'></i></a>
-                </div>
-            </div>
-
-            <div class="portfolio-box" data-project="4">
-                <img src="images/projects/praxis/praxis1.png" alt="Praxis Richter Dental Clinic">
-
-                <div class="portfolio-layer">
-                    <h4>Praxis Richter</h4>
-                    <p>Healthcare · Web Design</p>
-                    <a href="https://www.behance.net/valentihernand137" target="_blank" rel="noopener"><i class='bx bx-link-external'></i></a>
-                </div>
-            </div>
-
-            <div class="portfolio-box" data-project="5">
-                <img src="images/projects/glycoso/glycoso1.jpg" alt="Glycoso - CGM Care Diabetes App">
-
-                <div class="portfolio-layer">
-                    <h4>Glycoso</h4>
-                    <p>Digital Healthcare · UX Design</p>
-                    <a href="https://www.behance.net/valentihernand137" target="_blank" rel="noopener"><i class='bx bx-link-external'></i></a>
-                </div>
-            </div>
-
-            <div class="portfolio-box" data-project="6">
-                <img src="images/projects/gravelu/gravelu1.jpg" alt="Gravelu Bakery Branding">
-
-                <div class="portfolio-layer">
-                    <h4>Gravelu</h4>
-                    <p>Branding · Web Design</p>
-                    <a href="https://www.behance.net/valentihernand137" target="_blank" rel="noopener"><i class='bx bx-link-external'></i></a>
-                </div>
-            </div>
-
-            <div class="portfolio-box" data-project="7">
-                <img src="images/projects/wolrdcup/worldcup1.jpg" alt="FIFA World Cup Qatar 2022">
-
-                <div class="portfolio-layer">
-                    <h4>FIFA World Cup</h4>
-                    <p>Illustration · Graphic Design</p>
-                    <a href="https://www.behance.net/valentihernand137" target="_blank" rel="noopener"><i class='bx bx-link-external'></i></a>
-                </div>
-            </div>
-
-        </div>
-
+            <textarea cols="30" rows="10" placeholder="Your Message"></textarea>
+            <input type="submit" value="Send Message" class="btn">
+        </form>
     </section>
 
-        <!--testimonial section-->
-        <div class="testimonial-container">
-            <h2 class="heading">Valuable <span>Testimonial</span></h2>
-
-            <div class="testimonial-wrapper">
-                <div class="testimonial-box mySwiper">
-                    <div class="testimonial-content swiper-wrapper">
-                        <div class="testimonial-slide swiper-slide">
-                            <img src="images/t1.jpeg" alt="">
-                            <h3>Sofia Martínez</h3>
-                            <p>Valentina redesigned our healthcare dashboard from the ground up. The new interface reduced onboarding time by 40% and our team absolutely loves it.</p>
-                        </div>
-
-                        <div class="testimonial-slide swiper-slide">
-                            <img src="images/t2.jpeg" alt="">
-                            <h3>James Okafor</h3>
-                            <p>Working with Valentina on our fintech platform was a great experience. She brought clarity to complex data and delivered a beautiful, functional design.</p>
-                        </div>
-
-                        <div class="testimonial-slide swiper-slide">
-                            <img src="images/t3.jpeg" alt="">
-                            <h3>Lena Schreiber</h3>
-                            <p>The Praxis website Valentina designed exceeded all our expectations. Patients comment on how easy it is to navigate and book appointments.</p>
-                        </div>
-
-                    </div>
-
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
-                    <div class="swiper-pagination"></div>
-
-                </div>
-            </div>
+    <!--footer section-->
+    <footer class="footer">
+        <div class="footer-text">
+            <p>Copyright &copy; 2026 by Charity Jenkins | All rights reserved.</p>
         </div>
 
-        <!--contact section-->
-        <section class="contact" id="contact">
-            <h2 class="heading">Contact <span>Me!</span></h2>
-
-            <form action="#">
-
-                <div class="input-box">
-                    <input type="text" placeholder="Full Name">
-                    <input type="email" placeholder="Email Address">
-                </div>
-
-                <div class="input-box">
-                    <input type="number" placeholder="Mobile Number">
-                    <input type="text" placeholder="Email Subject">
-                </div>
-
-                <textarea name="" id="" cols="30" rows="10" placeholder="Your Message"></textarea>
-                <input type="submit" value="Send Message" class="btn">
-
-            </form>
-        </section>
-
-        <!--footer section-->
-        <footer class="footer">
-            <div class="footer-text">
-                <p>Copyright &copy; 2024 by Valentina | All rights reserved!</p>
-            </div>
-
-            <div class="footer-iconTop">
-                <a href="#home"><i class='bx bx-up-arrow-alt'></i></a>
-            </div>
-        </footer>
-
-
-
-    <!-- Project Modal -->
-    <div class="project-modal" id="projectModal">
-        <div class="modal-overlay" id="modalOverlay"></div>
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-info">
-                    <h3 class="modal-title" id="modalTitle"></h3>
-                    <span class="modal-category" id="modalCategory"></span>
-                </div>
-                <button class="modal-close" id="modalClose"><i class='bx bx-x'></i></button>
-            </div>
-            <div class="modal-slider">
-                <button class="modal-arrow modal-prev-btn" id="modalPrev"><i class='bx bx-chevron-left'></i></button>
-                <div class="modal-image-wrap">
-                    <img id="modalImg" src="" alt="">
-                </div>
-                <button class="modal-arrow modal-next-btn" id="modalNext"><i class='bx bx-chevron-right'></i></button>
-            </div>
-            <div class="modal-footer">
-                <div class="modal-dots" id="modalDots"></div>
-                <span class="modal-counter" id="modalCounter"></span>
-            </div>
+        <div class="footer-links">
+            <a href="ui-ux.html">UI/UX</a>
+            <a href="email.html">Email Design</a>
+            <a href="#contact">Contact</a>
         </div>
-    </div>
 
-    <!-- scroll reveal -->
-    <script src="https://unpkg.com/scrollreveal"></script>
-
-    <!-- swiper js -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        <div class="footer-iconTop">
+            <a href="#home"><i class='bx bx-up-arrow-alt'></i></a>
+        </div>
+    </footer>
 
     <!-- custom js-->
     <script src="scripts.js"></script>
-    
+
 </body>
 </html>

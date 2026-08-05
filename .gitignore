@@ -1,0 +1,8 @@
+# Full-size email master artwork (up to 30 MB each) — the site serves
+# images/email/*/web/*.jpg and images/email/*/thumb.jpg instead.
+images/email/*/[0-9].png
+images/email/*/[0-9][0-9].png
+
+# Hero source posters — served as images/hero-*.jpg
+/email.png
+/ui-ux.png
